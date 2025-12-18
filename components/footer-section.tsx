@@ -7,7 +7,7 @@ export default function FooterSection() {
           {/* Brand Section */}
           <div className="self-stretch flex justify-start items-center gap-3">
             <div
-              className="text-center text-xl font-semibold leading-4 font-sans"
+              className="text-center text-xl font-semibold leading-4 font-sans font-serif"
               style={{ color: "var(--brand-heading)" }}
             >
               Evenza

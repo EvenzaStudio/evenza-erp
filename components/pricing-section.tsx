@@ -4,15 +4,41 @@ import { useState } from "react"
 
 export default function PricingSection() {
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annually">("monthly")
+  const [loading, setLoading] = useState<string | null>(null)
+
+  const handleCheckout = async (plan: string) => {
+    try {
+      setLoading(plan)
+      const response = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan, period: billingPeriod }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.text()
+        throw new Error(errorData || "Network response was not ok")
+      }
+
+      const { url } = await response.json()
+      if (url) {
+        window.location.href = url
+      }
+    } catch (err) {
+      console.error("Error:", err)
+    } finally {
+      setLoading(null)
+    }
+  }
 
   const pricing = {
-    starter: {
-      monthly: 29,
-      annually: 290,
+    standard: {
+      monthly: 199,
+      annually: 1990,
     },
     professional: {
-      monthly: 79,
-      annually: 790,
+      monthly: 349,
+      annually: 3499,
     },
     enterprise: {
       monthly: 299,
@@ -64,15 +90,19 @@ export default function PricingSection() {
               </div>
               <div>
                 <div className="text-5xl font-semibold text-[#1f3a52] mb-1">
-                  ${billingPeriod === "monthly" ? pricing.starter.monthly : Math.floor(pricing.starter.annually / 12)}
+                  ${billingPeriod === "monthly" ? pricing.standard.monthly : Math.floor(pricing.standard.annually / 12)}
                   /mes
                 </div>
                 <p className="text-sm text-[#5a7a8f]">
                   por usuario, facturado {billingPeriod === "monthly" ? "mensualmente" : "anualmente"}
                 </p>
               </div>
-              <button className="w-full px-4 py-2 bg-[#1f3a52] text-white rounded-full font-medium hover:opacity-90">
-                Comenzar gratis
+              <button
+                onClick={() => handleCheckout("standard")}
+                disabled={loading === "standard"}
+                className="w-full px-4 py-2 bg-[#1f3a52] text-white rounded-full font-medium hover:opacity-90 disabled:opacity-50"
+              >
+                {loading === "standard" ? "Procesando..." : "Comenzar gratis"}
               </button>
             </div>
             <div className="flex flex-col gap-3 border-t border-[#d1dce8] pt-6">
@@ -117,8 +147,12 @@ export default function PricingSection() {
                   por usuario, facturado {billingPeriod === "monthly" ? "mensualmente" : "anualmente"}
                 </p>
               </div>
-              <button className="w-full px-4 py-2 bg-[#ffffff] text-[#1f3a52] rounded-full font-medium hover:opacity-90">
-                Comenzar gratis
+              <button
+                onClick={() => handleCheckout("professional")}
+                disabled={loading === "professional"}
+                className="w-full px-4 py-2 bg-[#ffffff] text-[#1f3a52] rounded-full font-medium hover:opacity-90 disabled:opacity-50"
+              >
+                {loading === "professional" ? "Procesando..." : "Comenzar gratis"}
               </button>
             </div>
             <div className="flex flex-col gap-3 border-t border-[#3a6b99] pt-6">

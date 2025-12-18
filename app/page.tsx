@@ -3,17 +3,17 @@
 import type React from "react"
 
 import { useState, useEffect, useRef } from "react"
-import SmartSimpleBrilliant from "../components/smart-simple-brilliant"
-import YourWorkInSync from "../components/your-work-in-sync"
-import EffortlessIntegration from "../components/effortless-integration-updated"
-import NumbersThatSpeak from "../components/numbers-that-speak"
-import DocumentationSection from "../components/documentation-section"
-import TestimonialsSection from "../components/testimonials-section"
-import FAQSection from "../components/faq-section"
-import PricingSection from "../components/pricing-section"
-import WaitlistSection from "../components/waitlist-section"
-import CTASection from "../components/cta-section"
-import FooterSection from "../components/footer-section"
+import SmartSimpleBrilliant from "@/components/smart-simple-brilliant"
+import YourWorkInSync from "@/components/your-work-in-sync"
+import EffortlessIntegration from "@/components/effortless-integration-updated"
+import NumbersThatSpeak from "@/components/numbers-that-speak"
+import DocumentationSection from "@/components/documentation-section"
+import TestimonialsSection from "@/components/testimonials-section"
+import FAQSection from "@/components/faq-section"
+import PricingSection from "@/components/pricing-section"
+import WaitlistSection from "@/components/waitlist-section"
+import CTASection from "@/components/cta-section"
+import FooterSection from "@/components/footer-section"
 
 // Reusable Badge Component
 function Badge({ icon, text }: { icon: React.ReactNode; text: string }) {
@@ -33,6 +33,7 @@ export default function LandingPage() {
   const mountedRef = useRef(true)
 
   useEffect(() => {
+    mountedRef.current = true
     const progressInterval = setInterval(() => {
       if (!mountedRef.current) return
 
@@ -43,18 +44,12 @@ export default function LandingPage() {
           }
           return 0
         }
-        return prev + 2 // 2% every 100ms = 5 seconds total
+        return prev + 0.5 // Slower progress for smoother feel (approx 10s)
       })
-    }, 100)
+    }, 50) // Smoother updates
 
     return () => {
       clearInterval(progressInterval)
-      mountedRef.current = false
-    }
-  }, [])
-
-  useEffect(() => {
-    return () => {
       mountedRef.current = false
     }
   }, [])
@@ -97,7 +92,7 @@ export default function LandingPage() {
               <div className="w-full max-w-[calc(100%-32px)] sm:max-w-[calc(100%-48px)] md:max-w-[calc(100%-64px)] lg:max-w-[700px] lg:w-[700px] h-10 sm:h-11 md:h-12 py-1.5 sm:py-2 px-3 sm:px-4 md:px-4 pr-2 sm:pr-3 bg-[#F7F5F3] backdrop-blur-sm shadow-[0px_0px_0px_2px_white] overflow-hidden rounded-[50px] flex justify-between items-center relative z-30">
                 <div className="flex justify-center items-center">
                   <div className="flex justify-start items-center">
-                    <div className="flex flex-col justify-center text-[#2F3037] text-sm sm:text-base md:text-lg lg:text-xl font-medium leading-5 font-sans cursor-pointer">
+                    <div className="font-serif flex flex-col justify-center text-[#2F3037] text-sm sm:text-base md:text-lg lg:text-xl font-bold leading-5 font-sans cursor-pointer">
                       Evenza
                     </div>
                   </div>
@@ -140,8 +135,8 @@ export default function LandingPage() {
                   </div>
                   <div className="w-full max-w-[506.08px] lg:w-[506.08px] text-center flex justify-center flex-col text-[rgba(55,50,47,0.80)] sm:text-lg md:text-xl leading-[1.4] sm:leading-[1.45] md:leading-[1.5] lg:leading-7 font-sans px-2 sm:px-4 md:px-0 lg:text-lg font-medium text-sm">
                     El ERP completo para agencias de rentales de mobiliario.
-                    <br className="hidden sm:block" />
-                    Clientes, cotizaciones, contratos y mantenimiento en un solo lugar.
+                    {/* <br className="hidden sm:block" />
+                    Clientes, cotizaciones, contratos y mantenimiento en un solo lugar. */}
                   </div>
                 </div>
               </div>
@@ -178,7 +173,9 @@ export default function LandingPage() {
                         {/* Product Image 1 - Plan your schedules */}
                         <div
                           className={`absolute inset-0 transition-all duration-500 ease-in-out ${
-                            activeCard === 0 ? "opacity-100 scale-100 blur-0" : "opacity-0 scale-95 blur-sm"
+                            activeCard === 0
+                              ? "opacity-100 scale-100 blur-none translate-x-0"
+                              : "opacity-0 scale-95 blur-sm -translate-x-12"
                           }`}
                         >
                           <img
@@ -191,7 +188,9 @@ export default function LandingPage() {
                         {/* Product Image 2 - Data to insights */}
                         <div
                           className={`absolute inset-0 transition-all duration-500 ease-in-out ${
-                            activeCard === 1 ? "opacity-100 scale-100 blur-0" : "opacity-0 scale-95 blur-sm"
+                            activeCard === 1
+                              ? "opacity-100 scale-100 blur-none translate-x-0"
+                              : "opacity-0 scale-95 blur-sm -translate-x-12"
                           }`}
                         >
                           <img
@@ -204,7 +203,9 @@ export default function LandingPage() {
                         {/* Product Image 3 - Data visualization */}
                         <div
                           className={`absolute inset-0 transition-all duration-500 ease-in-out ${
-                            activeCard === 2 ? "opacity-100 scale-100 blur-0" : "opacity-0 scale-95 blur-sm"
+                            activeCard === 2
+                              ? "opacity-100 scale-100 blur-none translate-x-0"
+                              : "opacity-0 scale-95 blur-sm -translate-x-12"
                           }`}
                         >
                           <img
@@ -232,7 +233,9 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                <div className="flex-1 px-0 sm:px-2 md:px-0 flex flex-col md:flex-row justify-center items-stretch gap-0">
+                <div 
+                  className="flex-1 px-0 sm:px-2 md:px-0 flex flex-col md:flex-row justify-center items-stretch gap-0"
+                >
                   {/* Feature Cards */}
                   <FeatureCard
                     title="Gestión de Clientes"
@@ -291,7 +294,7 @@ export default function LandingPage() {
                           <rect x="9.5" y="5" width="1" height="1" fill="#37322F" />
                         </svg>
                       }
-                      text="Prueba Social"
+                      text="Aliados"
                     />
                     <div className="w-full max-w-[472.55px] text-center flex justify-center flex-col text-[#49423D] text-xl sm:text-2xl md:text-3xl lg:text-5xl font-semibold leading-tight md:leading-[60px] font-sans tracking-tight">
                       Confianza respaldada por resultados
@@ -385,7 +388,7 @@ export default function LandingPage() {
                           <rect x="7" y="7" width="4" height="4" stroke="#37322F" strokeWidth="1" fill="none" />
                         </svg>
                       }
-                      text="Rejilla de Módulos"
+                      text="Módulos"
                     />
                     <div className="w-full max-w-[598.06px] lg:w-[598.06px] text-center flex justify-center flex-col text-[#49423D] text-xl sm:text-2xl md:text-3xl lg:text-5xl font-semibold leading-tight md:leading-[60px] font-sans tracking-tight">
                       Construido para claridad absoluta y trabajo enfocado
